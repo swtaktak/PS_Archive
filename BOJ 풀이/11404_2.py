@@ -2,6 +2,8 @@
 # 댜익스트라와의 차이점 : 모든 노드에서 다른 모든 노드 까지의 최단 경로를 한번에 모두 계산한다.
 # 다익스트라는 그리디, 플로이드 워셜 알고리즘은 DP
 # 기본 : Dab = in(Dab, Dak + Dkb)
+# Time complexity : V^3
+# 특징점 : 음의 가치를 가져도! 플로이드 워셜은 쓸 수 있다!, 한번에 모두 구한다!
 
 import sys
 input = sys.stdin.readline
