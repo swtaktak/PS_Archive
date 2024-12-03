@@ -8,7 +8,7 @@ min_digit_cnt = {2: 1, 3: 7, 4: 4, 5: 2, 6: 6, 7: 8} # 6은 6 or 0으로 사용�
 min_dp = [0] * 101
 max_dp = [0] * 101
 
-for i in range(2, 100):
+for i in range(2, 101):
     if i == 2:
         min_dp[i] = 1
         max_dp[i] = 1
