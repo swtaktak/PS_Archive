@@ -20,4 +20,3 @@ def matrix_power(matrix, n):
 matrix = [[0.5, 0.5], [1, 0]] 
 N = int(input())
 prod_result = matrix_power(matrix, N - 1)
-print(prod_result * (10**24))
