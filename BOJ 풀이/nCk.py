@@ -1,5 +1,5 @@
 n, k = map(int, input().split())
-p = 1000000007
+p = 1000000000000000000000000007
 
 def fast_pow(a, b, c):
     if b == 0:
