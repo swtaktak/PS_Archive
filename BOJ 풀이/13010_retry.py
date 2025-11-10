@@ -1,48 +1,62 @@
 import sys
-from collections import defaultdict
 input = sys.stdin.readline
+# 가능한 x는 사실상 10**9 까지다. 정확하게는 root N
+MAX = 10**9 + 1 # 안전하게
+prime_num = []
+prime_list = [True for _ in range(int(MAX ** 0.5) + 1)]
+for i in range(2, len(prime_list)):
+    if prime_list[i]:
+        prime_num.append(i)
+        for j in range(i*i, len(prime_list), i):
+            prime_list[j] = False
 
-def gcd(a, b):
-    if b > 0:
-        a, b = b, a % b
-    return a
-
-def get_fact(n):
-    N_divs = defaultdict(int)
-    if n > 1:
-        for i in range(2, int(n ** 0.5) + 2):
-            if n % i == 0:
-                while n % i == 0:
-                    n = n // i
-                    N_divs[i] += 1
+def get_dn(n):
+    if n == 1:
+        return 1
+    else:
+        div_cnt = []
+        for p in prime_num:
+            cur_cnt = 0
+            while n % p == 0:
+                cur_cnt += 1
+                n = n // p
+            if cur_cnt > 0:
+                div_cnt.append(cur_cnt)
         if n > 1:
-            N_divs[n] += 1
-    return N_divs
-
+            div_cnt.append(1)
+        cnt = 1
+        for d in div_cnt:
+            cnt *= (d+1)
+        return cnt
+    
+# 추가로....
+# 약수의 개수가 많아야 60개임 61개부터는 무조건 실패임.
+# 그 이유는 2 ** 60 > 10 ** 18 이어서.
 N = int(input())
-answer = -1
-fact_n = get_fact(N)
-# 몇 제곱수가 최대인가? 이진법이 아니라 쉽게 계산하자.
-fact_cnt_list = list(fact_n.values())
-if len(fact_cnt_list) == 1:
-    fact_gcd = fact_cnt_list[0]
-else:
-    for i in range(1, len(fact_cnt_list)):
-        if i == 1:
-            fact_gcd = gcd(fact_cnt_list[0], fact_cnt_list[1])
-        else:
-            fact_gcd = gcd(fact_cnt_list[i], fact_gcd)
+answer = MAX
 
-answer = -1
-for cur_pow in range(2, fact_gcd + 1):
-    if fact_gcd % cur_pow == 0:
-        # 현재 지수에 해당하는 밑 숫자를 구하고 그 숫자의 약수의 개수가, cur_pow와 동일한가?
-        cur_num = 1
-        div_cnt = 1
-        for cur_f in fact_n:
-            cur_num *= (cur_f ** (fact_n[cur_f] // cur_pow))
-            div_cnt *= (fact_n[cur_f] // cur_pow + 1)
-        if cur_pow == div_cnt:
-            answer = cur_num
+if N == 1:
+    print(1)
+else:
+    # 2제곱부터 59제곱까지만 하면 됨
+    for cur_power in range(59, 1, -1):
+        lower = 2
+        upper = int(N ** (1/cur_power)) + 1
+        
+        while lower <= upper:
+            mid = (lower + upper) // 2
+            cur_val = mid ** cur_power
+            if cur_val < N:
+                lower = mid + 1
+            else:
+                if cur_val == N:
+                    if get_dn(mid) == cur_power:
+                        answer = mid
+                upper = mid - 1
+        if answer != MAX:
             break
-print(answer)
+        
+if answer != MAX:
+    print(answer)
+else:
+    print(-1)
