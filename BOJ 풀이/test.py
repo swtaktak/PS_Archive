@@ -1,12 +1,8 @@
-import sys
-input = sys.stdin.readline
-
-start, fail = map(int, input().split())
-
-answer = 1
-
-for i in range(fail):
-    cur_prob = start / 100 + (0.005) * i
-    answer *= (1 - cur_prob)
-    
-print(answer * 100)
+a = 69230
+b = 0
+c = 0
+while a > 0:
+    c = a % 10
+    b = 10 * b + c
+    a = a // 10
+print(a + b + c)
