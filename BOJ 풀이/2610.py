@@ -60,9 +60,9 @@ for cur_group in group_dict:
     min_cand = INF
     
     for c in cur_cands:
-        cur_dist = 0
+        cur_dist = -1
         for o in cur_cands:
-            cur_dist += graph[c][o]
+            cur_dist = max(cur_dist, graph[c][o])
         if min_dist > cur_dist:
             min_dist = cur_dist
             min_cand = c
